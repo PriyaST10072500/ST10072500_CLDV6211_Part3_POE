@@ -1,0 +1,125 @@
+﻿@model IEnumerable<ST10072500_CLDV6211_Part2.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .artwork-image {
+        width: 200px;
+        height: 200px; 
+        border: 1px solid #ccc;
+        object-fit: cover;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .card-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-body {
+        padding-top: 90px;
+    }
+
+    .card-footer {
+        display: flex;
+    }
+
+        .card-footer a {
+            margin: 0 5px;
+        }
+
+    .card-title {
+        text-decoration: underline;
+        color: brown;
+        text-align: center;
+    }
+</style>
+
+<div class="container" style="text-align:center">
+    <h1>KhumaloCraft Work Page</h1>
+    <p>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <a asp-action="Create">Create New</a>
+        }
+    </p>
+    <p>
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter" onchange="filterByCategory()">
+            <option value="All">All</option>
+            <option value="Realism">Realism</option>
+            <option value="Abstract Art">Abstract</option>
+            <option value="Pop Art">Pop</option>
+            <option value="Portrait Art">Portrait</option>
+        </select>
+    </p>
+</div>
+
+<div class="card-group" id="artworkContainer">
+    @foreach (var item in Model)
+    {
+        <div class="card" data-category="@item.ArtCategory">
+            <div style="width: 250px; height: 150px; display: flex; justify-content: center; align-items: flex-start; padding-top: 20px; text-align: center;">
+                <img src="data:image;base64,@(item.ArtImg)" class="artwork-image" alt="Artwork Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ArtName)</h5>
+                <p class="card-text">
+                    <strong>Creator:</strong> @Html.DisplayFor(modelItem => item.ArtCreatorName)<br>
+                    <strong>Price:</strong> R @Html.DisplayFor(modelItem => item.ArtPrice)<br>
+                    <strong>Category:</strong> @Html.DisplayFor(modelItem => item.ArtCategory)<br>
+                    <strong>Availability:</strong>
+                    @if (item.ArtAvailability)
+                    {
+                        <span>In Stock</span>
+                        <a asp-action="Order" asp-route-id="@item.ArtId" class="btn btn-primary" style="margin: 10px auto; ">Order</a>
+                    }
+                    else
+                    {
+                        <span>Out of Stock</span>
+                    }
+                </p>
+            </div>
+            <div class="card-footer">
+                <td>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ArtId">Edit |</a>
+                        <a asp-action="Details" asp-route-id="@item.ArtId">Details |</a>
+                        <a asp-action="Delete" asp-route-id="@item.ArtId">Delete</a>
+
+                    }
+                </td>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function filterByCategory() {
+        var selectedCategory = document.getElementById("categoryFilter").value;
+        var artworks = document.querySelectorAll(".card");
+
+        artworks.forEach(function (card) {
+            var category = card.getAttribute("data-category");
+            if (selectedCategory === "All" || category === selectedCategory) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>

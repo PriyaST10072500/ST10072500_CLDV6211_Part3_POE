@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<html>
+    <head>
+        <title>Contact</title>
+
+        <link rel="stylesheet" href="ContactUs.css" type="text/css"/> <!-- this is a link to this pages style page -->
+    </head>
+    <body>
+
+
+    <br />
+    <h1 style="text-align:center">KhumaloCraft Contact Page</h1>
+    <br />
+    <br />
+
+
+    <div class="card" style="text-align:center; width: 1270px; border-radius: 40px; background-color: #e6b8af">
+    <div class="card-body">
+            <h2 class="card-title" style="">Contact Form</h2><br />
+
+            <form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post">
+
+            <label for="fname" style="font-size: 20px">First Name</label><br />
+            <input type="text" style="width: 600px" id="fname" name="firstname" placeholder="Your name.."><br />
+                <br />
+                <label for="lname" style="font-size: 20px">Last Name</label><br />
+                <input type="text" style="width: 600px" id="lname" name="lastname" placeholder="Your last name.."><br />
+                <br />
+                <label for="email" style="font-size: 20px"><i class="fa fa-envelope"></i> Email</label><br />
+                <input type="text" style="width: 600px" id="mail" name="email" placeholder="john@example.com"><br />
+                <br />
+                <label for="adr" style="font-size: 20px"><i class="fa fa-address-card-o"></i> Phone Number</label><br>
+                <input type="text" style="width: 600px" id="phnnum" name="phonenumber" placeholder="082 583 4590"><br />
+
+                <br />
+                <label for="subject" style="font-size: 20px">Discription</label><br>
+                <textarea id="subject" style="width: 600px; height:100px" name="subject" placeholder="Write something.."></textarea><br>
+
+                <br />
+                <button class="btn btn-primary" style="border-radius: 50px; width: 380px;">Submit</button>
+
+        </form>
+    </div>
+</div>
+
+    </body>
+
+</html>

@@ -1,0 +1,89 @@
+﻿
+@model ST10072500_CLDV6211_Part2.ViewModels.TrasactionProductViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+            }
+
+        .artwork-image {
+            width: 200px;
+            height: 200px;
+        }
+
+        .actions a {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align:center;">KhumaloCraft Cart Page</h1>
+
+    <p style="text-align:center;">
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <a asp-action="Create">Create New</a>
+        }
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model.Transactions)
+            {
+                <tr>
+                    @foreach (var product in Model.Products)
+                    {
+                        @if (product.ArtId == transaction.ArtId)
+                        {
+                            <td><img src="data:image;base64,@(product.ArtImg)" class="artwork-image" alt="Artwork Image"></td>
+                            <td>@Html.DisplayFor(modelItem => product.ArtName)</td>
+                            <td>@Html.DisplayFor(modelItem => product.ArtPrice)</td>
+                            <td class="actions">
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@transaction.TransactionId">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@transaction.TransactionId">Details</a>
+                                }
+                                <a asp-action="Delete" asp-route-id="@transaction.TransactionId">Delete</a>
+                            </td>
+                            
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

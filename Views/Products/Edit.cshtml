@@ -1,0 +1,103 @@
+﻿@model ST10072500_CLDV6211_Part2.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ArtId" />
+            <div class="form-group">
+                <label asp-for="ArtName" class="control-label"></label>
+                <input asp-for="ArtName" class="form-control" />
+                <span asp-validation-for="ArtName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtCreatorName" class="control-label"></label>
+                <input asp-for="ArtCreatorName" class="form-control" />
+                <span asp-validation-for="ArtCreatorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtPrice" class="control-label"></label>
+                <input asp-for="ArtPrice" class="form-control" />
+                <span asp-validation-for="ArtPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtCategory" class="control-label"></label>
+                <select asp-for="ArtCategory" class="form-control">
+                    <option value="">-- Select Category --</option>
+                    <option value="Realism">Realism</option>
+                    <option value="Abstract Art">Nature</option>
+                    <option value="Pop Art">Sculpture</option>
+                    <option value="Portrait Art">Modern</option>
+                </select>
+                <span asp-validation-for="ArtCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ArtAvailability" /> @Html.DisplayNameFor(model => model.ArtAvailability)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtImg" class="control-label"></label><br />
+                @if (!string.IsNullOrEmpty(Model.ArtImg))
+                {
+                    <img src="data:image;base64,@Model.ArtImg" alt="Current Image" style="max-width: 200px; max-height: 200px;" />
+
+                    <br />
+                }
+                <input asp-for="ArtImg" type="file" name="ImgFile" class="form-control" />
+                <span asp-validation-for="ArtImg" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Check if input field is empty or null
+        function checkInputs() {
+            var inputs = document.querySelectorAll('input[type="text"], input[type="file"], select');
+            var isValid = true;
+
+            inputs.forEach(function (input) {
+                if (!input.value && input.getAttribute('type') !== 'file') {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                alert('Please fill in all fields.');
+                return false; 
+            }
+
+            return true; 
+        }
+
+        // Add event listener to form submission
+        document.querySelector('form').addEventListener('submit', function (event) {
+            if (!checkInputs()) {
+                event.preventDefault(); 
+            }
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
